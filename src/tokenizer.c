@@ -2,14 +2,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-int main(){
-  printf("welcome tokenizer\n");
-
-  char name[6] = " Hello";
-  printf("%s",name);
-  return 0;
-}
-
 //return true if c is space
 int space_char(char c){
   if(c == ' ' || c == '\t'){
@@ -45,7 +37,7 @@ char *word_terminator(char *word){
 //count number of words in string
 int count_words(char *str){
   int count = 0;
-  str = word_start(str)
+  str = word_start(str);
   while(*str){
     str = word_terminator(str);
     count++;
@@ -68,33 +60,32 @@ char *copy_str(char *inStr, short len){
 //return fresh allocated sero-terminated vector
 char **tokenize(char* str){
   int wordCount = count_words(str);
-  char **tokens = malloc((wordCount);
+  char **tokens = malloc((wordCount + 1)* sizeof(char *));
+  wordCount = 0;
+  while(*str){
+    tokens[wordCount] = copy_str(word_start(str), word_terminator(str) - word_start(str));
+    str = word_terminator(str);
+    str = word_start(str);
+    wordCount++;
+  }
+  *(tokens+wordCount) = 0;
+  return tokens;
 }
 
 //print all tokens
 void print_tokens(char **tokens){
-  printf(" %s\n", tokens[0]);
-  printf(" %s\n", tokens[1]);
-  for(int i = 0; i < MAX; i++){
-    if(tokens[i] == NULL){
-       break;
-    }else{
-      printf("%s\n", tokens[i]);
-    }
+  while(*tokens){
+    printf("\n%s", *tokens);
+    tokens++;
   }
 }
 
 //fress all tokens and the vector containing them
 void free_tokens(char **tokens){
-  printf("inside free\n");
-  for(int i = 0; i <= MAX; i++){
-    if(tokens[i] == NULL){
-      free(tokens[i]);
-      break;
-    }else{
-      free(tokens[i]);
-      (*tokens)++;
-    }
+  int i = 0;
+  while(tokens[i]){
+    free(tokens[i]);
+    i++;
   }
   free(tokens);
 }
