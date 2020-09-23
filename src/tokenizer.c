@@ -46,6 +46,16 @@ int count_words(char *str){
   return count;
 }
 
+int len_word(char *str){
+  char *start, *end;
+  int len;
+  start = word_start(str);
+  end = word_terminator(str);
+
+  len = end - start ;
+  return len;
+}
+
 //return new zero-terminated string
 char *copy_str(char *inStr, short len){
   char *copy = malloc(sizeof(char) * (len+1));

@@ -1,10 +1,7 @@
-#FIles for program
-OBJS= tokenizer.o history.o uimain.o
+OBJS = tokenizer.o history.o ui.o
 
-#-g to debug -03 to optimize code for performance
-CFLAGS= -g -03
+CFLAGS = -g -03
 
-#first target built in make
 all: tokenize
 
 tokenize: $(OBJS)

@@ -11,7 +11,6 @@ int main(){
   printf("enter a string:");
   fgets(user_input, limit, stdin);
   char *str = user_input;
-  printf("%s", word_terminator(str));
   char **token = tokenize(str);
   print_tokens(token);
   free_tokens(token);
@@ -28,10 +27,9 @@ int main(){
     temp = word_terminator(temp);
     temp = word_start(temp);
   }
-  // hisotry_UI(strings, str); 
+  history_UI(strings, str); 
   free_history(strings);
   
-
   return 0;
 }
   
