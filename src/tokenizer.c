@@ -1,28 +1,12 @@
 #include "tokenizer.h"
 #include <stdio.h>
 #include <stdlib.h>
-#define MAX 100
 
 int main(){
-  char input[MAX];
-  printf("welcome to tokenizer\nEnter a string\n");
-  scanf("%[^\n]", &input);
-  printf(input);
+  printf("welcome tokenizer\n");
 
-  char *toToken;
-  toToken = input;
-  printf("stored to pointer\n");
-
-  char **tokens;
-  tokens = tokenize(input);
-  printf("tokenized\n");
-
-  print_tokens(tokens);
-  printf("finished printing\n");
-
-  free_tokens(tokens);
-  printf("free tokens\n");
-
+  char name[6] = " Hello";
+  printf("%s",name);
   return 0;
 }
 
@@ -36,7 +20,7 @@ int space_char(char c){
 
 //return true is c is not a space
 int non_space_char(char c){
-  if(c != ' ' || c != '\t'){
+  if(c != ' ' && c != '\t'){
     return 1;
   }
   return 0;
@@ -44,72 +28,47 @@ int non_space_char(char c){
 
 //return a pointer to the first character of the next space-separated word in zero-terminator str. return 0 if str does not conatin any words
 char *word_start(char *str){
-  int i = 0;
-  while(space_char(str[i])){
-    i++;
-    return &str[i];
+  while(space_char(*str)){
+    str++;
   }
+  return str;
 }
 
 //return a pointer terminator char following *word
 char *word_terminator(char *word){
-  int i = 0;
-  while(non_space_char(word[i])){
-    i++;
-    return &word[i];
+  while(non_space_char(*word)){
+    word++;
   }
+  return word;
 }
 
 //count number of words in string
 int count_words(char *str){
-  printf("word count\n");
   int count = 0;
-  while(str != word_terminator(str)){
+  str = word_start(str)
+  while(*str){
+    str = word_terminator(str);
     count++;
+    str = word_start(str);
   }
   return count;
 }
 
 //return new zero-terminated string
 char *copy_str(char *inStr, short len){
-  printf("copy string\n");
-  char *outStr = malloc(len * sizeof(char));
-  for(int i = 0; i <= len+1; i++){
-    if(i == len+1){
-      outStr[i] = '\0';
-    }else {
-      outStr[i] = inStr[i];
-    }
+  char *copy = malloc(sizeof(char) * (len+1));
+  int i;
+  for(i = 0; i < len; i++){
+    *(copy+i) = *(inStr+i);
   }
+  *(copy+i) = '\0';
+  return copy;
 }
 
 //return fresh allocated sero-terminated vector
 char **tokenize(char* str){
-  printf("tokenize\n");
-  short wordCount = count_words(str);
-  char *tokenWords[wordCount];
-  short wordLength;
-  char **tokens;
-  char *starts;
-
-  for(int i = 0; i < wordCount && str[i] != '\0'; i++){
-    starts = word_start(str);
-    printf("%s\n", starts);
-    wordLength = 0;
-    for(int j =0; j < MAX; j++){
-      if(non_space_char(starts[j]) == 0){
-	break;
-      }else {
-	wordLength++;
-      }
-   }
-   printf("word length is %d \n", wordLength);
-   tokenWords[i] = (copy_str(starts, wordLength));
-   str = word_terminator(starts);
-  }
-  printf("finsihed tokenize\n");
-  tokens = tokenWords;
-  return tokens;
+  int wordCount = count_words(str);
+  char **tokens = malloc((wordCount);
 }
 
 //print all tokens
